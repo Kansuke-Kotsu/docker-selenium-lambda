@@ -26,11 +26,10 @@ def handler(event, context=None):
 
     try:
         chrome = webdriver.Chrome(options=options, service=service)
-        chrome.get(event["key1"])
-        body = chrome.find_element(by=By.XPATH, value="//html").text
+        outputs = selenium_main.main(chromesetting=chrome, user_input=event["key1"])
         response = {
             'statusCode': 200,
-            'body': body,
+            'body': outputs[0],
             'headers': {
                 'Content-Type': 'text/plain'
             }
