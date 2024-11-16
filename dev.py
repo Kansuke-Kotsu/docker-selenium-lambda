@@ -4,8 +4,6 @@ from tempfile import mkdtemp
 from selenium.webdriver.common.by import By
 import json
 
-import selenium_main
-
 def handler(event, context=None):
     options = webdriver.ChromeOptions()
     service = webdriver.ChromeService("/opt/chromedriver")
@@ -23,7 +21,7 @@ def handler(event, context=None):
     options.add_argument(f"--data-path={mkdtemp()}")
     options.add_argument(f"--disk-cache-dir={mkdtemp()}")
     options.add_argument("--remote-debugging-port=9222")
-
+        
     try:
         chrome = webdriver.Chrome(options=options, service=service)
         chrome.get(event["key1"])
