@@ -2,10 +2,10 @@
 from selenium import webdriver
 from tempfile import mkdtemp
 from selenium.webdriver.common.by import By
+import json
 
 # Import actual logic
 from selenium_main import main
-
 
 def handler(event=None, context=None):
     options = webdriver.ChromeOptions()
@@ -27,7 +27,19 @@ def handler(event=None, context=None):
 
     chrome = webdriver.Chrome(options=options, service=service)
 
-    # Chrome設定 ==> スクレイピング結果を一つの配列で取得
-    outputs = main(chromesetting=chrome)
+    # Extract user inputs from the event object.  Assume JSON format.
+    user_inputs = json.loads(event['body']) if 'body' in event else {}
 
-    return outputs
+    # Chrome設定 ==> スクレイピング結果を一つの配列で取得
+    # outputs = main(chromesetting=chrome)
+
+    chrome.get("https://www.google.com/")
+    response = {
+        'statusCode': 200,
+        'body': chrome.find_element(by=By.XPATH, value="//html").text,
+        'headers': {
+            'Content-Type': 'text/plain'
+        }
+    }
+
+    return response
