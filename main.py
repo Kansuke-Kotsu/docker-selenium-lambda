@@ -25,20 +25,9 @@ def handler(event, context=None):
     options.add_argument("--remote-debugging-port=9222")
 
     chrome = webdriver.Chrome(options=options, service=service)
-            
-    # ユーザーからの入力を取得
-    user_input = event.get('queryStringParameters', {}).get('text')
-    if not user_input:
-        response = {
-            'statusCode': 200,
-            'body': "入力内容を確認してください",
-            'headers': {
-                'Content-Type': 'text/plain'
-            }
-        }
         
     try:
-        outputs = selenium_main.main(chromesetting=chrome, user_input=user_input)
+        outputs = selenium_main.main(chromesetting=chrome, user_input=event["key1"])
         response = {
             'statusCode': 200,
             'body': outputs[0],
