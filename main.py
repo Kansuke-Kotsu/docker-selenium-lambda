@@ -22,8 +22,8 @@ def handler(event, context=None):
     options.add_argument(f"--disk-cache-dir={mkdtemp()}")
     options.add_argument("--remote-debugging-port=9222")
 
+    """    
     # ユーザーからの入力を取得
-    user_input = json.dumps(event, indent=2)
     response = {
             'statusCode': 200,
             'body': event["key1"],
@@ -31,10 +31,11 @@ def handler(event, context=None):
                 'Content-Type': 'text/plain'
             }
         }
+    """
         
-    """try:
+    try:
         chrome = webdriver.Chrome(options=options, service=service)
-        chrome.get(user_input)
+        chrome.get(event["key1"])
         body = chrome.find_element(by=By.XPATH, value="//html").text
         response = {
             'statusCode': 200,
@@ -50,6 +51,6 @@ def handler(event, context=None):
             'headers': {
                 'Content-Type': 'text/plain'
             }
-        }"""
+        }
 
     return response
