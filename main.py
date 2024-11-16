@@ -5,7 +5,7 @@ from selenium.webdriver.common.by import By
 import json
 
 # Import actual logic
-from selenium_main import main
+#from selenium_main import main
 
 def handler(event=None, context=None):
     options = webdriver.ChromeOptions()
