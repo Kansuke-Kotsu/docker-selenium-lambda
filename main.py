@@ -1,6 +1,10 @@
+# Import Base libraries
 from selenium import webdriver
 from tempfile import mkdtemp
 from selenium.webdriver.common.by import By
+
+# Import actual logic
+from selenium_main import main
 
 
 def handler(event=None, context=None):
@@ -22,6 +26,8 @@ def handler(event=None, context=None):
     options.add_argument("--remote-debugging-port=9222")
 
     chrome = webdriver.Chrome(options=options, service=service)
-    chrome.get("https://google.com/")
 
-    return chrome.find_element(by=By.XPATH, value="//html").text
+    # Chrome設定 ==> スクレイピング結果を一つの配列で取得
+    outputs = main(chromesetting=chrome)
+
+    return outputs
