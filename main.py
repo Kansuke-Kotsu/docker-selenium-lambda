@@ -25,15 +25,24 @@ def handler(event=None, context=None):
     options.add_argument(f"--disk-cache-dir={mkdtemp()}")
     options.add_argument("--remote-debugging-port=9222")
 
-    chrome = webdriver.Chrome(options=options, service=service)
-    chrome.get("https://www.google.com/")
-    body = chrome.find_element(by=By.XPATH, value="//html").text
-    response = {
-        'statusCode': 200,
-        'body': body,
-        'headers': {
-            'Content-Type': 'text/plain'
+    try:
+        chrome = webdriver.Chrome(options=options, service=service)
+        chrome.get("https://www.google.com/")
+        body = chrome.find_element(by=By.XPATH, value="//html").text
+        response = {
+            'statusCode': 200,
+            'body': body,
+            'headers': {
+                'Content-Type': 'text/plain'
+            }
         }
-    }
+    except:
+        response = {
+            'statusCode': 300,
+            'body': "errorだよ",
+            'headers': {
+                'Content-Type': 'text/plain'
+            }
+        }
 
     return response
