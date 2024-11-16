@@ -24,16 +24,15 @@ def handler(event, context=None):
 
     # ユーザーからの入力を取得
     user_input = event.get('queryStringParameters', {}).get('text')
-    if not user_input:
-        response = {
+    response = {
             'statusCode': 200,
-            'body': "入力内容を確認してください",
+            'body': user_input,
             'headers': {
                 'Content-Type': 'text/plain'
             }
         }
         
-    try:
+    """try:
         chrome = webdriver.Chrome(options=options, service=service)
         chrome.get(user_input)
         body = chrome.find_element(by=By.XPATH, value="//html").text
@@ -51,6 +50,6 @@ def handler(event, context=None):
             'headers': {
                 'Content-Type': 'text/plain'
             }
-        }
+        }"""
 
     return response
