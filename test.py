@@ -1,10 +1,11 @@
 import requests
 import json
 
-def invoke_lambda(api_gateway_url, payload=None):
+def invoke_lambda(api_gateway_url, payload):
     headers = {'Content-Type': 'application/json'}
     try:
-        response = requests.post(api_gateway_url, data=json.dumps(payload), headers=headers) # UNCOMMENT THIS LINE
+        #response = requests.post(api_gateway_url, data=json.dumps(payload), headers=headers) # UNCOMMENT THIS LINE
+        response = requests.post(url=api_gateway_url, json=payload, headers=headers)
         print(f"Raw response: {response.text}") # ADD THIS LINE
         response.raise_for_status()
         return response.json()
@@ -22,7 +23,7 @@ api_gateway_url = "https://i86xwtbmre.execute-api.ap-northeast-1.amazonaws.com/d
 
 # リクエストペイロード (必要に応じて)
 payload = {
-  "key1": "value1",
+  "key1": "https://www.google.com/",
   "key2": "value2",
   "key3": "value3"
 }
