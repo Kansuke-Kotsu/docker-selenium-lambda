@@ -4,6 +4,8 @@ from tempfile import mkdtemp
 from selenium.webdriver.common.by import By
 import json
 
+import selenium_main
+
 def handler(event, context=None):
     options = webdriver.ChromeOptions()
     service = webdriver.ChromeService("/opt/chromedriver")
@@ -22,6 +24,8 @@ def handler(event, context=None):
     options.add_argument(f"--disk-cache-dir={mkdtemp()}")
     options.add_argument("--remote-debugging-port=9222")
 
+    chrome = webdriver.Chrome(options=options, service=service)
+            
     # ユーザーからの入力を取得
     user_input = event.get('queryStringParameters', {}).get('text')
     if not user_input:
@@ -34,12 +38,10 @@ def handler(event, context=None):
         }
         
     try:
-        chrome = webdriver.Chrome(options=options, service=service)
-        chrome.get(user_input)
-        body = chrome.find_element(by=By.XPATH, value="//html").text
+        outputs = selenium_main.main(chromesetting=chrome, user_input=user_input)
         response = {
             'statusCode': 200,
-            'body': body,
+            'body': outputs[0],
             'headers': {
                 'Content-Type': 'text/plain'
             }

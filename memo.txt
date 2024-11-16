@@ -1,0 +1,13 @@
+rm -r docker-selenium-lambda-kansuke/
+
+git clone https://github.com/Kansuke-Kotsu/docker-selenium-lambda-kansuke.git
+
+cd docker-selenium-lambda-kansuke/
+
+aws ecr get-login-password --region ap-northeast-1 | docker login --username AWS --password-stdin 872515252750.dkr.ecr.ap-northeast-1.amazonaws.com
+
+docker build -t docker-selenium-lambda-kansuke .
+
+docker tag docker-selenium-lambda-kansuke:latest 872515252750.dkr.ecr.ap-northeast-1.amazonaws.com/docker-selenium-lambda-kansuke:latest
+
+docker push 872515252750.dkr.ecr.ap-northeast-1.amazonaws.com/docker-selenium-lambda-kansuke:latest
