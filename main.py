@@ -26,17 +26,11 @@ def handler(event=None, context=None):
     options.add_argument("--remote-debugging-port=9222")
 
     chrome = webdriver.Chrome(options=options, service=service)
-
-    # Extract user inputs from the event object.  Assume JSON format.
-    user_inputs = json.loads(event['body']) if 'body' in event else {}
-
-    # Chrome設定 ==> スクレイピング結果を一つの配列で取得
-    # outputs = main(chromesetting=chrome)
-
     chrome.get("https://www.google.com/")
+    body = chrome.find_element(by=By.XPATH, value="//html").text
     response = {
         'statusCode': 200,
-        'body': chrome.find_element(by=By.XPATH, value="//html").text,
+        'body': body,
         'headers': {
             'Content-Type': 'text/plain'
         }
