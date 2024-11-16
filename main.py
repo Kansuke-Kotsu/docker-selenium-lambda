@@ -23,10 +23,10 @@ def handler(event, context=None):
     options.add_argument("--remote-debugging-port=9222")
 
     # ユーザーからの入力を取得
-    user_input = event.get('queryStringParameters', {}).get('text')
+    user_input = json.dumps(event, indent=2)
     response = {
             'statusCode': 200,
-            'body': user_input,
+            'body': event["key1"],
             'headers': {
                 'Content-Type': 'text/plain'
             }
