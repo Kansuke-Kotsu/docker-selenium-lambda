@@ -6,28 +6,18 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from time import sleep
 
-def get(name, chromedriver_path, selected_headless):
-    print("-------- エイブル --------")
-    print(name)
-    # Chromeオプションを設定
-    chrome_options = Options()
-    if selected_headless == "非表示":
-        chrome_options.add_argument("--headless")
-    # サービスを作成
-    service = Service(chromedriver_path)
-    # ブラウザを起動
-    driver = webdriver.Chrome(service=service, options=chrome_options)
-
+def get(chromesetting, name):
     # 指定したURLにアクセス
     url = "https://heya.a-hosho.co.jp/"
     USERNAME = '0368246611'
     PASSWORD = 'D7dk8KEC'
 
-    step = 0
-
     try:
+        # Chromeを起動
+        driver = chromesetting
         driver.get(url)
         step = 1
+
         # ユーザー名とパスワードを入力（フィールドをクリアしてから入力）
         email_field = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.NAME, 'login_id')))
@@ -40,9 +30,9 @@ def get(name, chromedriver_path, selected_headless):
         login_button = WebDriverWait(driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, '//*[@src="./img/button_login.jpg"]')))
         login_button.click()
-
         print("ログイン完了")
         step = 2
+        
         # 検索ワードを入力
         search_input = WebDriverWait(driver, 20).until(
             EC.presence_of_element_located((By.XPATH, '//input[@name="building_name"]'))
@@ -74,12 +64,12 @@ def get(name, chromedriver_path, selected_headless):
             print("結果なし")
         
     except Exception as e:
-        if step == 0: 
-            result.append("アクセスに失敗しました。ネットワーク or PC負荷を確認してください")
-        elif step == 1:
+        if step == 1:
             result.append("ログインに失敗しました。パスワードが変更されてないか確認してください")
         elif step == 2:
             result.append("ログイン完了後、検索に失敗しました。何度も失敗するようであれば連絡ください")
+        else:
+            result.append("アクセスに失敗しました。ネットワーク or PC負荷を確認してください")
 
     driver.quit()  # ブラウザを閉じる
 
@@ -90,5 +80,3 @@ results = [
         ("サイト名：", "リンク", "物件名", "その他詳細")
     ]
 '''
-#result = get(name="ハイツ")
-#print(result)

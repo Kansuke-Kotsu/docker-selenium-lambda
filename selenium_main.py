@@ -10,6 +10,8 @@ import selenium_RNP
 import selenium_TAKUTO
 import selenium_Tokyu
 
-def main(chromesetting, ):
+def main(chromesetting, user_input):
     # それぞれの関数を実行して、結果を取得する
-    output_Able = selenium_Able.get()
+    output_Able = selenium_Able.get(chromesetting=chromesetting, name=user_input)
+
+    return output_Able
